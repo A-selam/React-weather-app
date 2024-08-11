@@ -63,7 +63,7 @@ const TemperatureChart = () => {
   };
 
   return (
-    <Card className="my-6">
+    <Card className="my-6 rounded-3xl">
       <CardHeader className="pb-2">
         <CardTitle>Hourly Forcast</CardTitle>
       </CardHeader>
