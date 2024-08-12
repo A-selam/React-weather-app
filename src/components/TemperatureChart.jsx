@@ -1,3 +1,7 @@
+import { useContext } from "react";
+
+import { forecastContext } from "@/App";
+
 import { Line } from "react-chartjs-2";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
@@ -21,27 +25,31 @@ ChartJS.register(
   Legend
 );
 
+function labelExtractor(hours) {
+  const label = [];
+  hours.map((hour) => label.push(hour.time.split(" ")[1]));
+  return label;
+}
+
+function dataExtractor(hours) {
+  const data = [];
+  hours.map((hour) => data.push(hour.temp_c));
+  return data;
+}
+
 const TemperatureChart = () => {
+  const forecastData = useContext(forecastContext);
+
+  const labels = labelExtractor(forecastData.forecast.forecastday[0].hour);
+  const temp_data = dataExtractor(forecastData.forecast.forecastday[0].hour);
+
   // Dummy data for hourly forecast
   const data = {
-    labels: [
-      "1 AM",
-      "2 AM",
-      "3 AM",
-      "4 AM",
-      "5 AM",
-      "6 AM",
-      "7 AM",
-      "8 AM",
-      "9 AM",
-      "10 AM",
-      "11 AM",
-      "12 PM",
-    ],
+    labels: [...labels],
     datasets: [
       {
         label: "Temperature (°C)",
-        data: [16, 15, 15, 14, 14, 13, 12, 14, 17, 20, 22, 25], // Dummy temperature data
+        data: [...temp_data], // Dummy temperature data
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: true,

@@ -1,6 +1,19 @@
+import { useContext } from "react";
+import { forecastContext } from "@/App";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+function dateExtractor(date) {
+  const dateObj = new Date(date);
+
+  const options = { weekday: "long", month: "long", day: "numeric" };
+  const formattedDate = dateObj.toLocaleDateString("en-US", options);
+  return formattedDate;
+}
+
 export default function ForcastTabs() {
+  const forecastData = useContext(forecastContext);
+
   return (
     <Tabs
       defaultValue="weather"
@@ -18,48 +31,62 @@ export default function ForcastTabs() {
             <div className="flex items-center w-['80%']">
               <img
                 className="w-16 h-16"
-                src="//cdn.weatherapi.com/weather/64x64/night/179.png"
+                src={`${forecastData.forecast.forecastday[0].day.condition.icon}`}
                 alt=""
               />
               <div className="ml-3">
-                <p>Wednesday, July 12</p>
-                <p className="text-sm">Cloudy</p>
+                <p>{`${dateExtractor(
+                  forecastData.forecast.forecastday[0].date
+                )}`}</p>
+                <p className="text-sm">{`${forecastData.forecast.forecastday[0].day.condition.text}`}</p>
               </div>
             </div>
             <div>
-              <p className="leading-5 pl-3 border-l-2 border-white">18&deg;C</p>
+              <p className="leading-5 pl-3 border-l-2 border-white">
+                {`${forecastData.forecast.forecastday[0].day.avgtemp_c}`}&deg;C
+              </p>
             </div>
           </div>
           <div className="border-b-2 border-blue-800 flex items-center justify-between py-3">
             <div className="flex items-center">
               <img
                 className="w-18 h-18"
-                src="//cdn.weatherapi.com/weather/64x64/night/179.png"
+                src={forecastData.forecast.forecastday[1].day.condition.icon}
                 alt=""
               />
               <div className="ml-3">
-                <p>Wednesday, July 12</p>
-                <p className="text-sm">Cloudy</p>
+                <p>
+                  {dateExtractor(forecastData.forecast.forecastday[1].date)}
+                </p>
+                <p className="text-sm">{`${forecastData.forecast.forecastday[1].day.condition.text}`}</p>
               </div>
             </div>
             <div>
-              <p className="leading-5 pl-3 border-l-2 border-white">18&deg;C</p>
+              <p className="leading-5 pl-3 border-l-2 border-white">
+                {`${forecastData.forecast.forecastday[1].day.avgtemp_c}`}&deg;C
+              </p>
             </div>
           </div>
           <div className="flex items-center justify-between py-3">
             <div className="flex items-center">
               <img
                 className="w-18 h-18"
-                src="//cdn.weatherapi.com/weather/64x64/night/179.png"
+                src={forecastData.forecast.forecastday[2].day.condition.icon}
                 alt=""
               />
               <div className="ml-3">
-                <p>Wednesday, July 12</p>
-                <p className="text-sm">Cloudy</p>
+                <p>
+                  {dateExtractor(forecastData.forecast.forecastday[2].date)}
+                </p>
+                <p className="text-sm">
+                  {forecastData.forecast.forecastday[2].day.condition.text}
+                </p>
               </div>
             </div>
             <div>
-              <p className="leading-5 pl-3 border-l-2 border-white">18&deg;C</p>
+              <p className="leading-5 pl-3 border-l-2 border-white">
+                {`${forecastData.forecast.forecastday[2].day.avgtemp_c}`}&deg;C
+              </p>
             </div>
           </div>
         </div>
